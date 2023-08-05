@@ -8,7 +8,7 @@ fmt: goimports
 	@$(GOIMPORTS) -w -local github.com/jibudata $(shell go list -f {{.Dir}} ./...)
 
 vet: ## Run go vet against code.
-	go vet ./pkg/...
+	go vet ./...
 
 tidy:
 	go mod tidy
@@ -50,9 +50,8 @@ golangci-lint = $(shell pwd)/build/bin/golangci-lint
 golangci-lint: ## Download golangci-lint locally if necessary.
 	$(call go-get-tool,$(golangci-lint),github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2)
 
-test:
-	go test -v client/
-	#go build -gcflags=all="-N -l" -o build/bin/archival-client client/main.go
+build:
+	go build -gcflags=all="-N -l" client/client.go
 
 
 
