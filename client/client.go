@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	pb "github.com/jibudata/archival-api"
+	pb "github.com/jibudata/archive-api"
 )
 
 type ArchivalClient struct {
