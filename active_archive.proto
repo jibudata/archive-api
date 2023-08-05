@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+package v1;
+
+import "meta.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/jibudata/archival-api;v1";
+
+
+service ActiveArchive {
+  rpc ListMediumInfo (DefaultResourceRequest) returns (MediumInfo) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{library_manager_name}/mediums"
+    };
+  }
+  rpc GetMediaInfo (LibraryManagerResourceKey) returns (MediaInfoReply) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}"
+    };
+  }
+  rpc GetDrivesInfo (DefaultResourceRequest) returns (DrivesInfo) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{library_manager_name}/drives"
+    };
+  }
+  rpc GetPoolsInfo (DefaultResourceRequest) returns (PoolsInfo) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{library_manager_name}/pools"
+    };
+  }
+  rpc CreatePool (CreatePoolParams) returns (ReplyMessage) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{location_info.library_manager_name}/pools"
+      body: "*"
+    };
+  }
+  rpc DeletePool (LibraryManagerResourceKey) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/library_managers/{location_info.library_manager_name}/pools/{name}"
+    };
+  }
+  rpc AddMediaToPool(PoolAddRequest) returns (ReplyMessage) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/add_media"
+      body: "*"
+    };
+  }
+  rpc RemoveMediaFromPool(PoolRemoveRequest) returns (ReplyMessage) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/remove_media"
+      body: "*"
+    };
+  }
+  rpc Migrate (MigrateRequest) returns (MigrationStatus) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{pool.location_info.library_manager_name}/actions/migrate"
+      body: "*"
+    };
+  }
+  rpc Recall (RecallRequest) returns (MigrationStatus) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{location_info.library_manager_name}/actions/recall"
+      body: "*"
+    };
+  }
+  rpc Retrieve (DefaultResourceRequest) returns (ReplyMessage) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{library_manager_name}/actions/retrieve"
+      body: "*"
+    };
+  }
+  rpc MigrateAsync (MigrateRequest) returns (MigrationStatus) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{pool.location_info.library_manager_name}/actions/async_migrate"
+      body: "*"
+    };
+  }
+  rpc RecallAsync (RecallRequest) returns (MigrationStatus) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers/{location_info.library_manager_name}/actions/async_recall"
+      body: "*"
+    };
+  }
+  rpc GetAsyncStatus (AsyncStatusRequest) returns (MigrationStatus) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{location_info.library_manager_name}/async_status/{request_number}"
+    };
+  }
+  rpc GetFileInfo (FileInfoRequest) returns (FileInfo) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name}"
+    };
+  }
+}
+
+message LibraryManagerResourceKey {
+  string name = 1;
+  DefaultResourceRequest location_info = 2;
+}
+
+message MediaInfoReply {
+  string info = 1;
+}
+
+message CreatePoolParams {
+  string name = 1;
+  DefaultResourceRequest location_info = 2;
+}
+message PoolAddRequest {
+  LibraryManagerResourceKey pool = 1;
+  uint64 key = 2;
+  bool format_tape = 3;
+  bool perform_check = 4;
+  repeated string tape_id = 5;
+}
+
+message PoolRemoveRequest {
+  LibraryManagerResourceKey pool = 1;
+  uint64 key = 2;
+  repeated string tape_id = 3;
+}
+
+message PoolInfo {
+  string pool_name = 1;
+  uint64 total = 2;
+  uint64 free = 3;
+  uint64 unref = 4;
+  uint64 num_tapes = 5;
+}
+
+message PoolsInfo {
+  repeated PoolInfo pools = 1;
+}
+
+message DriveInfo {
+  string id = 1;
+  string dev_name = 2;
+  uint64 slot = 3;
+  string status = 4;
+  bool busy = 5;
+}
+
+message DrivesInfo {
+  repeated DriveInfo drives = 1;
+}
+
+message TapeInfo {
+  string id = 1;
+  uint64 slot = 2;
+  uint64 total_cap = 3;
+  uint64 remain_cap = 4;
+  uint64 reclaimable = 5;
+  string status = 6;
+  uint64 inprogress = 7;
+  string pool =8;
+  string state = 9;
+}
+
+message MediumInfo {
+  repeated TapeInfo tapes = 1;
+}
+
+message ReplyMessage {
+  int32 error_code = 1;
+  string error_msg = 2;
+}
+
+message MigrateRequest {
+  LibraryManagerResourceKey pool = 1;
+  repeated string files = 2;
+  bool premigrate = 3;
+}
+
+message RecallRequest {
+  bool resident = 1;
+  repeated string files = 2;
+  DefaultResourceRequest location_info = 3;
+}
+
+message MigrationStatus {
+  bool success = 1;
+  int64 request_number = 2;
+  int64 pid = 3;
+  int64 resident = 4;
+  int64 transferred = 5;
+  int64 premigrated = 6;
+  int64 migrated = 7;
+  int64 failed = 8;
+  bool done = 9;
+}
+
+message AsyncStatusRequest {
+  int64 request_number = 1;
+  DefaultResourceRequest location_info = 2;
+}
+
+message FileInfo {
+  string migration_state = 1;
+  string file_name = 2;
+  uint64 size = 3;
+  uint64 blocks = 4;
+  uint64 fsidh = 5;
+  uint64 fsidl = 6;
+  uint32 igen = 7;
+  uint64 inum = 8;
+  string tape_id = 9;
+  uint64 start_block = 10;
+}
+
+message FileInfoRequest {
+  string file_name = 1;
+  DefaultResourceRequest location_info = 2;
+}

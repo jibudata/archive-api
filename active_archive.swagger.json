@@ -1,0 +1,1047 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "active_archive.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ActiveArchive"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/library_managers/{library_manager_name}/actions/retrieve": {
+      "post": {
+        "operationId": "ActiveArchive_Retrieve",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReplyMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ip_address": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{library_manager_name}/drives": {
+      "get": {
+        "operationId": "ActiveArchive_GetDrivesInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DrivesInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{library_manager_name}/mediums": {
+      "get": {
+        "operationId": "ActiveArchive_ListMediumInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MediumInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{library_manager_name}/pools": {
+      "get": {
+        "operationId": "ActiveArchive_GetPoolsInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PoolsInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/actions/async_recall": {
+      "post": {
+        "operationId": "ActiveArchive_RecallAsync",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MigrationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resident": {
+                  "type": "boolean"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "location_info": {
+                  "type": "object",
+                  "properties": {
+                    "ip_address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/actions/recall": {
+      "post": {
+        "operationId": "ActiveArchive_Recall",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MigrationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resident": {
+                  "type": "boolean"
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "location_info": {
+                  "type": "object",
+                  "properties": {
+                    "ip_address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/async_status/{request_number}": {
+      "get": {
+        "operationId": "ActiveArchive_GetAsyncStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MigrationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request_number",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "location_info.ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name}": {
+      "get": {
+        "operationId": "ActiveArchive_GetFileInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1FileInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "location_info.ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}": {
+      "get": {
+        "operationId": "ActiveArchive_GetMediaInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MediaInfoReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "location_info.ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/pools": {
+      "post": {
+        "operationId": "ActiveArchive_CreatePool",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReplyMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "location_info": {
+                  "type": "object",
+                  "properties": {
+                    "ip_address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{location_info.library_manager_name}/pools/{name}": {
+      "delete": {
+        "operationId": "ActiveArchive_DeletePool",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "location_info.ip_address",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{pool.location_info.library_manager_name}/actions/async_migrate": {
+      "post": {
+        "operationId": "ActiveArchive_MigrateAsync",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MigrationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pool.location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location_info": {
+                      "type": "object",
+                      "properties": {
+                        "ip_address": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "premigrate": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{pool.location_info.library_manager_name}/actions/migrate": {
+      "post": {
+        "operationId": "ActiveArchive_Migrate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MigrationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pool.location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "location_info": {
+                      "type": "object",
+                      "properties": {
+                        "ip_address": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "premigrate": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/add_media": {
+      "post": {
+        "operationId": "ActiveArchive_AddMediaToPool",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReplyMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pool.location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pool.name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "location_info": {
+                      "type": "object",
+                      "properties": {
+                        "ip_address": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "key": {
+                  "type": "string",
+                  "format": "uint64"
+                },
+                "format_tape": {
+                  "type": "boolean"
+                },
+                "perform_check": {
+                  "type": "boolean"
+                },
+                "tape_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/remove_media": {
+      "post": {
+        "operationId": "ActiveArchive_RemoveMediaFromPool",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReplyMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pool.location_info.library_manager_name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pool.name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pool": {
+                  "type": "object",
+                  "properties": {
+                    "location_info": {
+                      "type": "object",
+                      "properties": {
+                        "ip_address": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "key": {
+                  "type": "string",
+                  "format": "uint64"
+                },
+                "tape_id": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1DefaultResourceRequest": {
+      "type": "object",
+      "properties": {
+        "library_manager_name": {
+          "type": "string"
+        },
+        "ip_address": {
+          "type": "string"
+        }
+      }
+    },
+    "v1DriveInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "dev_name": {
+          "type": "string"
+        },
+        "slot": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "status": {
+          "type": "string"
+        },
+        "busy": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1DrivesInfo": {
+      "type": "object",
+      "properties": {
+        "drives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1DriveInfo"
+          }
+        }
+      }
+    },
+    "v1FileInfo": {
+      "type": "object",
+      "properties": {
+        "migration_state": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "blocks": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fsidh": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "fsidl": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "igen": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inum": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "tape_id": {
+          "type": "string"
+        },
+        "start_block": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "v1LibraryManagerResourceKey": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "location_info": {
+          "$ref": "#/definitions/v1DefaultResourceRequest"
+        }
+      }
+    },
+    "v1MediaInfoReply": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MediumInfo": {
+      "type": "object",
+      "properties": {
+        "tapes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TapeInfo"
+          }
+        }
+      }
+    },
+    "v1MigrationStatus": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "request_number": {
+          "type": "string",
+          "format": "int64"
+        },
+        "pid": {
+          "type": "string",
+          "format": "int64"
+        },
+        "resident": {
+          "type": "string",
+          "format": "int64"
+        },
+        "transferred": {
+          "type": "string",
+          "format": "int64"
+        },
+        "premigrated": {
+          "type": "string",
+          "format": "int64"
+        },
+        "migrated": {
+          "type": "string",
+          "format": "int64"
+        },
+        "failed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "done": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1PoolInfo": {
+      "type": "object",
+      "properties": {
+        "pool_name": {
+          "type": "string"
+        },
+        "total": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "free": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "unref": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "num_tapes": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "v1PoolsInfo": {
+      "type": "object",
+      "properties": {
+        "pools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PoolInfo"
+          }
+        }
+      }
+    },
+    "v1ReplyMessage": {
+      "type": "object",
+      "properties": {
+        "error_code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "error_msg": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TapeInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "slot": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "total_cap": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "remain_cap": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "reclaimable": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "status": {
+          "type": "string"
+        },
+        "inprogress": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "pool": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,958 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /api/v1/library_managers:
+        get:
+            tags:
+                - LibraryManagement
+            operationId: LibraryManagement_ListLibraryManagers
+            parameters:
+                - name: name
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LibraryManagersReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - LibraryManagement
+            operationId: LibraryManagement_CreateLibraryManager
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LibraryManagerSpec'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LibraryManagerObject'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{libraryManagerName}/actions/retrieve:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_Retrieve
+            parameters:
+                - name: libraryManagerName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DefaultResourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ReplyMessage'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{libraryManagerName}/drives:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetDrivesInfo
+            parameters:
+                - name: libraryManagerName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DrivesInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{libraryManagerName}/mediums:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_ListMediumInfo
+            parameters:
+                - name: libraryManagerName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MediumInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{libraryManagerName}/pools:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetPoolsInfo
+            parameters:
+                - name: libraryManagerName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PoolsInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/actions/async_recall:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_RecallAsync
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RecallRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MigrationStatus'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/actions/recall:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_Recall
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RecallRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MigrationStatus'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/async_status/{requestNumber}:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetAsyncStatus
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: requestNumber
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MigrationStatus'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/file_info/{fileName}:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetFileInfo
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: fileName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FileInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetMediaInfo
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MediaInfoReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/pools:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_CreatePool
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatePoolParams'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ReplyMessage'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{location_info.library_manager_name}/pools/{name}:
+        delete:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_DeletePool
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{name}:
+        get:
+            tags:
+                - LibraryManagement
+            operationId: LibraryManagement_GetLibraryManager
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LibraryManagerObject'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - LibraryManagement
+            operationId: LibraryManagement_DeleteLibraryManager
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{pool.location_info.library_manager_name}/actions/async_migrate:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_MigrateAsync
+            parameters:
+                - name: pool.location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MigrateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MigrationStatus'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{pool.location_info.library_manager_name}/actions/migrate:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_Migrate
+            parameters:
+                - name: pool.location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MigrateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MigrationStatus'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/add_media:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_AddMediaToPool
+            parameters:
+                - name: pool.location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: pool.name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PoolAddRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ReplyMessage'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{pool.location_info.library_manager_name}/pools/{pool.name}/actions/remove_media:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_RemoveMediaFromPool
+            parameters:
+                - name: pool.location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: pool.name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PoolRemoveRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ReplyMessage'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/{resource_key.name}:
+        put:
+            tags:
+                - LibraryManagement
+            operationId: LibraryManagement_UpdateLibraryManager
+            parameters:
+                - name: resource_key.name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: resourceKey.name
+                  in: query
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LibraryManagerSpec'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LibraryManagerObject'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        CreatePoolParams:
+            type: object
+            properties:
+                name:
+                    type: string
+                locationInfo:
+                    $ref: '#/components/schemas/DefaultResourceRequest'
+        DefaultResourceRequest:
+            type: object
+            properties:
+                libraryManagerName:
+                    type: string
+                ipAddress:
+                    type: string
+        DriveInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                devName:
+                    type: string
+                slot:
+                    type: integer
+                    format: uint64
+                status:
+                    type: string
+                busy:
+                    type: boolean
+        DrivesInfo:
+            type: object
+            properties:
+                drives:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DriveInfo'
+        FileInfo:
+            type: object
+            properties:
+                migrationState:
+                    type: string
+                fileName:
+                    type: string
+                size:
+                    type: integer
+                    format: uint64
+                blocks:
+                    type: integer
+                    format: uint64
+                fsidh:
+                    type: integer
+                    format: uint64
+                fsidl:
+                    type: integer
+                    format: uint64
+                igen:
+                    type: integer
+                    format: uint32
+                inum:
+                    type: integer
+                    format: uint64
+                tapeId:
+                    type: string
+                startBlock:
+                    type: integer
+                    format: uint64
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        HostInfo:
+            type: object
+            properties:
+                ipAddress:
+                    type: string
+                hostName:
+                    type: string
+        LTFSDataManagerInfo:
+            type: object
+            properties:
+                revision:
+                    type: string
+                state:
+                    type: string
+        LibraryManagerObject:
+            type: object
+            properties:
+                spec:
+                    $ref: '#/components/schemas/LibraryManagerSpec'
+                libraryInfo:
+                    $ref: '#/components/schemas/TapeLibraryInfo'
+                system:
+                    $ref: '#/components/schemas/SystemInfo'
+                dataManagerInfo:
+                    $ref: '#/components/schemas/LTFSDataManagerInfo'
+        LibraryManagerResourceKey:
+            type: object
+            properties:
+                name:
+                    type: string
+                locationInfo:
+                    $ref: '#/components/schemas/DefaultResourceRequest'
+        LibraryManagerSpec:
+            type: object
+            properties:
+                libraryType:
+                    type: string
+                name:
+                    type: string
+                nodeInfo:
+                    $ref: '#/components/schemas/HostInfo'
+                settings:
+                    $ref: '#/components/schemas/TapeLibrarySetting'
+        LibraryManagersReply:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/LibraryManagerObject'
+                totalSize:
+                    type: integer
+                    format: int32
+        MediaInfoReply:
+            type: object
+            properties:
+                info:
+                    type: string
+        MediumInfo:
+            type: object
+            properties:
+                tapes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TapeInfo'
+        MigrateRequest:
+            type: object
+            properties:
+                pool:
+                    $ref: '#/components/schemas/LibraryManagerResourceKey'
+                files:
+                    type: array
+                    items:
+                        type: string
+                premigrate:
+                    type: boolean
+        MigrationStatus:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                requestNumber:
+                    type: integer
+                    format: int64
+                pid:
+                    type: integer
+                    format: int64
+                resident:
+                    type: integer
+                    format: int64
+                transferred:
+                    type: integer
+                    format: int64
+                premigrated:
+                    type: integer
+                    format: int64
+                migrated:
+                    type: integer
+                    format: int64
+                failed:
+                    type: integer
+                    format: int64
+                done:
+                    type: boolean
+        PoolAddRequest:
+            type: object
+            properties:
+                pool:
+                    $ref: '#/components/schemas/LibraryManagerResourceKey'
+                key:
+                    type: integer
+                    format: uint64
+                formatTape:
+                    type: boolean
+                performCheck:
+                    type: boolean
+                tapeId:
+                    type: array
+                    items:
+                        type: string
+        PoolInfo:
+            type: object
+            properties:
+                poolName:
+                    type: string
+                total:
+                    type: integer
+                    format: uint64
+                free:
+                    type: integer
+                    format: uint64
+                unref:
+                    type: integer
+                    format: uint64
+                numTapes:
+                    type: integer
+                    format: uint64
+        PoolRemoveRequest:
+            type: object
+            properties:
+                pool:
+                    $ref: '#/components/schemas/LibraryManagerResourceKey'
+                key:
+                    type: integer
+                    format: uint64
+                tapeId:
+                    type: array
+                    items:
+                        type: string
+        PoolsInfo:
+            type: object
+            properties:
+                pools:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PoolInfo'
+        RecallRequest:
+            type: object
+            properties:
+                resident:
+                    type: boolean
+                files:
+                    type: array
+                    items:
+                        type: string
+                locationInfo:
+                    $ref: '#/components/schemas/DefaultResourceRequest'
+        ReplyMessage:
+            type: object
+            properties:
+                errorCode:
+                    type: integer
+                    format: int32
+                errorMsg:
+                    type: string
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        SystemInfo:
+            type: object
+            properties:
+                revision:
+                    type: string
+                capacityBytes:
+                    type: integer
+                    format: uint64
+                totalCatridges:
+                    type: integer
+                    format: int32
+                licensedCapacityBytes:
+                    type: integer
+                    format: uint64
+                numberCopies:
+                    type: integer
+                    format: int32
+                worm:
+                    type: boolean
+                faultyCatridges:
+                    type: integer
+                    format: int32
+                cleaningCatridges:
+                    type: integer
+                    format: int32
+                numberFiles:
+                    type: integer
+                    format: int32
+        TapeInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                slot:
+                    type: integer
+                    format: uint64
+                totalCap:
+                    type: integer
+                    format: uint64
+                remainCap:
+                    type: integer
+                    format: uint64
+                reclaimable:
+                    type: integer
+                    format: uint64
+                status:
+                    type: string
+                inprogress:
+                    type: integer
+                    format: uint64
+                pool:
+                    type: string
+                state:
+                    type: string
+        TapeLibraryInfo:
+            type: object
+            properties:
+                vendor:
+                    type: string
+                serialNumber:
+                    type: string
+                productId:
+                    type: string
+                libraryName:
+                    type: string
+                firmwareVersion:
+                    type: string
+                state:
+                    type: string
+        TapeLibrarySetting:
+            type: object
+            properties:
+                numberCopies:
+                    type: integer
+                    format: int32
+                enableWORM:
+                    type: boolean
+tags:
+    - name: ActiveArchive
+    - name: LibraryManagement

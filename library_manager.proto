@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package v1;
+
+import "meta.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/jibudata/archival-api;v1";
+
+service LibraryManagement {
+  rpc ListLibraryManagers (ResourceKey) returns (LibraryManagersReply) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers"
+    };
+  }
+  rpc GetLibraryManager (ResourceKey) returns (LibraryManagerObject) {
+    option (google.api.http) = {
+      get: "/api/v1/library_managers/{name}"
+    };
+  }
+  rpc CreateLibraryManager (CreateLibraryManagerParams) returns (LibraryManagerObject) {
+    option (google.api.http) = {
+      post: "/api/v1/library_managers"
+      body: "spec"
+    };
+  }
+  rpc UpdateLibraryManager (UpdateLibraryManagerParams) returns (LibraryManagerObject) {
+    option (google.api.http) = {
+      put: "/api/v1/library_managers/{resource_key.name}"
+      body: "spec"
+    };
+  }
+  rpc DeleteLibraryManager (ResourceKey) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/library_managers/{name}"
+    };
+  }
+}
+
+message CreateLibraryManagerParams {
+  LibraryManagerSpec spec = 1;
+}
+
+message UpdateLibraryManagerParams {
+  ResourceKey resource_key = 1;
+  LibraryManagerSpec spec = 2;
+}
+
+message LibraryManagerObject {
+  LibraryManagerSpec spec = 1;
+  TapeLibraryInfo library_info = 2;
+  SystemInfo system = 3;
+  LTFSDataManagerInfo data_manager_info = 4;
+}
+
+message LibraryManagersReply {
+  repeated LibraryManagerObject data = 1;
+  int32 total_size = 2;
+}
+
+message TapeLibraryInfo {
+  string vendor = 1;
+  string serial_number = 2;
+  string product_id = 3;
+  string library_name = 4;
+  string firmware_version = 5;
+  string state = 6;
+}
+
+message SystemInfo {
+  string revision = 1;
+  uint64 capacity_bytes = 2;
+  int32 total_catridges = 3;
+  uint64 licensed_capacity_bytes = 4;
+  int32 number_copies = 5;
+  bool worm = 6;
+  int32 faulty_catridges = 7;
+  int32 cleaning_catridges = 8;
+  int32 number_files = 9;
+}
+
+message LTFSDataManagerInfo {
+  string revision = 1;
+  string state = 2;
+}
+
+message TapeLibrarySetting {
+  int32 number_copies = 1;
+  bool enable_WORM = 2;
+}
+
+message HostInfo {
+  string ip_address = 3;
+  string host_name = 4;
+}
+
+message LibraryManagerSpec {
+  string library_type = 1;
+  string name = 2;
+  HostInfo node_info = 4;
+  TapeLibrarySetting settings = 5;
+}
