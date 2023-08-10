@@ -822,7 +822,7 @@
         "id": {
           "type": "string"
         },
-        "dev_name": {
+        "device_name": {
           "type": "string"
         },
         "slot": {
@@ -865,19 +865,19 @@
           "type": "string",
           "format": "uint64"
         },
-        "fsidh": {
+        "filesystem_uid_high": {
           "type": "string",
           "format": "uint64"
         },
-        "fsidl": {
+        "filesystem_uid_low": {
           "type": "string",
           "format": "uint64"
         },
-        "igen": {
+        "inode_generation": {
           "type": "integer",
           "format": "int64"
         },
-        "inum": {
+        "inode_number": {
           "type": "string",
           "format": "uint64"
         },
@@ -973,11 +973,11 @@
           "type": "string",
           "format": "uint64"
         },
-        "unref": {
+        "reclaimable": {
           "type": "string",
           "format": "uint64"
         },
-        "num_tapes": {
+        "number_tapes": {
           "type": "string",
           "format": "uint64"
         }
@@ -1016,11 +1016,11 @@
           "type": "string",
           "format": "uint64"
         },
-        "total_cap": {
+        "total_capacity": {
           "type": "string",
           "format": "uint64"
         },
-        "remain_cap": {
+        "remain_capacity": {
           "type": "string",
           "format": "uint64"
         },

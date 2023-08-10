@@ -48,11 +48,11 @@ func TestArchivalAPI(t *testing.T) {
 		log.Printf("Tape info: %v", info)
 	}
 
-	_, found := archiveClient.GetPoolInfo(tapeName)
-	if found {
-		log.Printf("Total:  Free: ")
-	} else {
+	pool, err := archiveClient.GetPoolInfo(tapeName)
+	if err != nil {
 		log.Printf("Can not find the pool")
+	} else {
+		log.Printf("pool: %v", pool)
 	}
 
 	_, e := archiveClient.Migrate(srcPath, "pool0")
@@ -70,7 +70,9 @@ func TestArchivalAPI(t *testing.T) {
 	}
 
 	pool, e2 := archiveClient.GetPoolInfo("pool0")
-	if e2 {
-		log.Printf("Total: %d", pool.Total)
+	if e2 != nil {
+		log.Printf("Can not find the pool")
+	} else {
+		log.Printf("pool: %v", pool)
 	}
 }

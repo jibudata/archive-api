@@ -631,7 +631,7 @@ components:
             properties:
                 id:
                     type: string
-                devName:
+                deviceName:
                     type: string
                 slot:
                     type: integer
@@ -660,16 +660,16 @@ components:
                 blocks:
                     type: integer
                     format: uint64
-                fsidh:
+                filesystemUidHigh:
                     type: integer
                     format: uint64
-                fsidl:
+                filesystemUidLow:
                     type: integer
                     format: uint64
-                igen:
+                inodeGeneration:
                     type: integer
                     format: uint32
-                inum:
+                inodeNumber:
                     type: integer
                     format: uint64
                 tapeId:
@@ -816,10 +816,10 @@ components:
                 free:
                     type: integer
                     format: uint64
-                unref:
+                reclaimable:
                     type: integer
                     format: uint64
-                numTapes:
+                numberTapes:
                     type: integer
                     format: uint64
         PoolRemoveRequest:
@@ -912,10 +912,10 @@ components:
                 slot:
                     type: integer
                     format: uint64
-                totalCap:
+                totalCapacity:
                     type: integer
                     format: uint64
-                remainCap:
+                remainCapacity:
                     type: integer
                     format: uint64
                 reclaimable:

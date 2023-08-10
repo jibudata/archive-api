@@ -724,9 +724,9 @@ func (m *PoolInfo) validate(all bool) error {
 
 	// no validation rules for Free
 
-	// no validation rules for Unref
+	// no validation rules for Reclaimable
 
-	// no validation rules for NumTapes
+	// no validation rules for NumberTapes
 
 	if len(errors) > 0 {
 		return PoolInfoMultiError(errors)
@@ -962,7 +962,7 @@ func (m *DriveInfo) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for DevName
+	// no validation rules for DeviceName
 
 	// no validation rules for Slot
 
@@ -1206,9 +1206,9 @@ func (m *TapeInfo) validate(all bool) error {
 
 	// no validation rules for Slot
 
-	// no validation rules for TotalCap
+	// no validation rules for TotalCapacity
 
-	// no validation rules for RemainCap
+	// no validation rules for RemainCapacity
 
 	// no validation rules for Reclaimable
 
@@ -2076,13 +2076,13 @@ func (m *FileInfo) validate(all bool) error {
 
 	// no validation rules for Blocks
 
-	// no validation rules for Fsidh
+	// no validation rules for FilesystemUidHigh
 
-	// no validation rules for Fsidl
+	// no validation rules for FilesystemUidLow
 
-	// no validation rules for Igen
+	// no validation rules for InodeGeneration
 
-	// no validation rules for Inum
+	// no validation rules for InodeNumber
 
 	// no validation rules for TapeId
 
