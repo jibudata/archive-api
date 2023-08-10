@@ -904,8 +904,8 @@
     "v1MediaInfoReply": {
       "type": "object",
       "properties": {
-        "info": {
-          "type": "string"
+        "tape": {
+          "$ref": "#/definitions/v1TapeInfo"
         }
       }
     },

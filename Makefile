@@ -50,7 +50,7 @@ golangci-lint = $(shell pwd)/build/bin/golangci-lint
 golangci-lint: ## Download golangci-lint locally if necessary.
 	$(call go-get-tool,$(golangci-lint),github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2)
 
-build:
+build: vet
 	go build -gcflags=all="-N -l" client/client.go
 
 

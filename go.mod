@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/go-kratos/kratos/v2 v2.6.3
+	golang.org/x/exp v0.0.0-20230810033253-352e893a4cad
 	google.golang.org/genproto/googleapis/api v0.0.0-20230803162519-f966b187b2e5
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0

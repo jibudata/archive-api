@@ -101,7 +101,7 @@ message LibraryManagerResourceKey {
 }
 
 message MediaInfoReply {
-  string info = 1;
+  TapeInfo tape = 1;
 }
 
 message CreatePoolParams {

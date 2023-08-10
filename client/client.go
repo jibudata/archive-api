@@ -2,9 +2,10 @@ package client
 
 import (
 	"context"
-	"log"
+	"os"
 	"time"
 
+	"golang.org/x/exp/slog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -14,6 +15,7 @@ import (
 type ArchivalClient struct {
 	addr   string
 	client pb.ActiveArchiveClient
+	logger *slog.Logger
 }
 
 type Pool struct {
@@ -48,28 +50,54 @@ type FileInfo struct {
 	StartBlock uint64
 }
 
-func NewArchivalClient(addr string) (front *ArchivalClient, e error) {
-	front = &ArchivalClient{addr: addr}
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-		e = err
-		return
-	}
-	// defer conn.Close()
-	client := pb.NewActiveArchiveClient(conn)
-	front.client = client
-	return
+type TapeInfo struct {
+	Id          string
+	Slot        uint64
+	TotalCap    uint64
+	RemainCap   uint64
+	Reclaimable uint64
+	Status      string
+	Inprogress  uint64
+	Pool        string
+	State       string
 }
 
-func (f *ArchivalClient) GetMediaInfo(tapeName string) (tapeInfo string, e error) {
+func NewArchivalClient(addr string) (*ArchivalClient, error) {
+	archiveClient := &ArchivalClient{addr: addr}
+	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
+	client := pb.NewActiveArchiveClient(conn)
+	archiveClient.client = client
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	archiveClient.logger = logger.With("client", addr)
+
+	return archiveClient, nil
+}
+
+func (f *ArchivalClient) GetMediaInfo(tapeName string) (*TapeInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(30)*time.Second)
 	defer cancel()
-	r, err := f.client.GetMediaInfo(ctx, &pb.LibraryManagerResourceKey{Name: tapeName})
+	media, err := f.client.GetMediaInfo(ctx, &pb.LibraryManagerResourceKey{Name: tapeName})
 	if err != nil {
-		log.Fatalf("could not get tape info: %v", err)
+		f.logger.Error("could not get tape info, error: ", err)
+		return nil, err
 	}
-	return r.GetInfo(), err
+
+	tape := media.GetTape()
+	tapeInfo := &TapeInfo{
+		Id:          tape.GetId(),
+		Slot:        tape.GetSlot(),
+		TotalCap:    tape.GetTotalCap(),
+		RemainCap:   tape.GetRemainCap(),
+		Reclaimable: tape.GetReclaimable(),
+		Status:      tape.GetStatus(),
+		Inprogress:  tape.GetInprogress(),
+		Pool:        tape.GetPool(),
+		State:       tape.GetState(),
+	}
+	return tapeInfo, err
 }
 
 func (f *ArchivalClient) GetPoolsInfo() ([]*Pool, error) {
@@ -150,7 +178,7 @@ func (f *ArchivalClient) GetAsyncStatus(reqNumber int64) (AsyncStatus, error) {
 	defer cancel()
 	status, err := f.client.GetAsyncStatus(ctx, &pb.AsyncStatusRequest{RequestNumber: reqNumber})
 	if err != nil {
-		log.Fatalf("could not get async status: %v", err)
+		f.logger.Error("could not get async status, error: ", err)
 		return AsyncStatus{}, err
 	}
 	return AsyncStatus{
@@ -169,7 +197,7 @@ func (f *ArchivalClient) GetFileInfo(fileName string) (FileInfo, error) {
 	defer cancel()
 	fileInfo, err := f.client.GetFileInfo(ctx, &pb.FileInfoRequest{FileName: fileName})
 	if err != nil {
-		log.Fatalf("Get file info failed with err: %v", err)
+		f.logger.Error("Get file info failed with err: ", err)
 		return FileInfo{}, err
 	}
 	return FileInfo{

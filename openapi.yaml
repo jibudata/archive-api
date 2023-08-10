@@ -741,8 +741,8 @@ components:
         MediaInfoReply:
             type: object
             properties:
-                info:
-                    type: string
+                tape:
+                    $ref: '#/components/schemas/TapeInfo'
         MediumInfo:
             type: object
             properties:
