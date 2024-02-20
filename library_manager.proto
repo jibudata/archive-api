@@ -90,14 +90,24 @@ message TapeLibrarySetting {
   bool enable_WORM = 2;
 }
 
+message ManagedFileSystemInfo {
+  string mount_point = 1;
+  string device_path = 2;
+  string filesystem_type = 3;
+  string mount_options = 4;
+  uint64 total_capacity_bytes = 5;
+  uint64 free_capacity_bytes = 6;
+}
+
 message HostInfo {
-  string ip_address = 3;
-  string host_name = 4;
+  string ip_address = 1;
+  string host_name = 2;
+  repeated ManagedFileSystemInfo managed_fs_info = 3;
 }
 
 message LibraryManagerSpec {
   string library_type = 1;
   string name = 2;
-  HostInfo node_info = 4;
-  TapeLibrarySetting settings = 5;
+  HostInfo node_info = 3;
+  TapeLibrarySetting settings = 4;
 }

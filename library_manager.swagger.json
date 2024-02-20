@@ -210,6 +210,12 @@
         },
         "host_name": {
           "type": "string"
+        },
+        "managed_fs_info": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ManagedFileSystemInfo"
+          }
         }
       }
     },
@@ -270,6 +276,31 @@
         "total_size": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "v1ManagedFileSystemInfo": {
+      "type": "object",
+      "properties": {
+        "mount_point": {
+          "type": "string"
+        },
+        "device_path": {
+          "type": "string"
+        },
+        "filesystem_type": {
+          "type": "string"
+        },
+        "mount_options": {
+          "type": "string"
+        },
+        "total_capacity_bytes": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "free_capacity_bytes": {
+          "type": "string",
+          "format": "uint64"
         }
       }
     },

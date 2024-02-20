@@ -241,8 +241,7 @@ paths:
                   in: path
                   required: true
                   schema:
-                    type: integer
-                    format: int64
+                    type: string
                 - name: locationInfo.libraryManagerName
                   in: query
                   schema:
@@ -634,8 +633,7 @@ components:
                 deviceName:
                     type: string
                 slot:
-                    type: integer
-                    format: uint64
+                    type: string
                 status:
                     type: string
                 busy:
@@ -655,28 +653,22 @@ components:
                 fileName:
                     type: string
                 size:
-                    type: integer
-                    format: uint64
+                    type: string
                 blocks:
-                    type: integer
-                    format: uint64
+                    type: string
                 filesystemUidHigh:
-                    type: integer
-                    format: uint64
+                    type: string
                 filesystemUidLow:
-                    type: integer
-                    format: uint64
+                    type: string
                 inodeGeneration:
                     type: integer
                     format: uint32
                 inodeNumber:
-                    type: integer
-                    format: uint64
+                    type: string
                 tapeId:
                     type: string
                 startBlock:
-                    type: integer
-                    format: uint64
+                    type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -692,6 +684,10 @@ components:
                     type: string
                 hostName:
                     type: string
+                managedFsInfo:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ManagedFileSystemInfo'
         LTFSDataManagerInfo:
             type: object
             properties:
@@ -738,6 +734,21 @@ components:
                 totalSize:
                     type: integer
                     format: int32
+        ManagedFileSystemInfo:
+            type: object
+            properties:
+                mountPoint:
+                    type: string
+                devicePath:
+                    type: string
+                filesystemType:
+                    type: string
+                mountOptions:
+                    type: string
+                totalCapacityBytes:
+                    type: string
+                freeCapacityBytes:
+                    type: string
         MediaInfoReply:
             type: object
             properties:
@@ -767,26 +778,19 @@ components:
                 success:
                     type: boolean
                 requestNumber:
-                    type: integer
-                    format: int64
+                    type: string
                 pid:
-                    type: integer
-                    format: int64
+                    type: string
                 resident:
-                    type: integer
-                    format: int64
+                    type: string
                 transferred:
-                    type: integer
-                    format: int64
+                    type: string
                 premigrated:
-                    type: integer
-                    format: int64
+                    type: string
                 migrated:
-                    type: integer
-                    format: int64
+                    type: string
                 failed:
-                    type: integer
-                    format: int64
+                    type: string
                 done:
                     type: boolean
         PoolAddRequest:
@@ -795,8 +799,7 @@ components:
                 pool:
                     $ref: '#/components/schemas/LibraryManagerResourceKey'
                 key:
-                    type: integer
-                    format: uint64
+                    type: string
                 formatTape:
                     type: boolean
                 performCheck:
@@ -811,25 +814,20 @@ components:
                 poolName:
                     type: string
                 total:
-                    type: integer
-                    format: uint64
+                    type: string
                 free:
-                    type: integer
-                    format: uint64
+                    type: string
                 reclaimable:
-                    type: integer
-                    format: uint64
+                    type: string
                 numberTapes:
-                    type: integer
-                    format: uint64
+                    type: string
         PoolRemoveRequest:
             type: object
             properties:
                 pool:
                     $ref: '#/components/schemas/LibraryManagerResourceKey'
                 key:
-                    type: integer
-                    format: uint64
+                    type: string
                 tapeId:
                     type: array
                     items:
@@ -882,14 +880,12 @@ components:
                 revision:
                     type: string
                 capacityBytes:
-                    type: integer
-                    format: uint64
+                    type: string
                 totalCatridges:
                     type: integer
                     format: int32
                 licensedCapacityBytes:
-                    type: integer
-                    format: uint64
+                    type: string
                 numberCopies:
                     type: integer
                     format: int32
@@ -910,22 +906,17 @@ components:
                 id:
                     type: string
                 slot:
-                    type: integer
-                    format: uint64
+                    type: string
                 totalCapacity:
-                    type: integer
-                    format: uint64
+                    type: string
                 remainCapacity:
-                    type: integer
-                    format: uint64
+                    type: string
                 reclaimable:
-                    type: integer
-                    format: uint64
+                    type: string
                 status:
                     type: string
                 inprogress:
-                    type: integer
-                    format: uint64
+                    type: string
                 pool:
                     type: string
                 state:

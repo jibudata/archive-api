@@ -559,19 +559,107 @@ func (x *TapeLibrarySetting) GetEnable_WORM() bool {
 	return false
 }
 
+type ManagedFileSystemInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MountPoint         string `protobuf:"bytes,1,opt,name=mount_point,json=mountPoint,proto3" json:"mount_point,omitempty"`
+	DevicePath         string `protobuf:"bytes,2,opt,name=device_path,json=devicePath,proto3" json:"device_path,omitempty"`
+	FilesystemType     string `protobuf:"bytes,3,opt,name=filesystem_type,json=filesystemType,proto3" json:"filesystem_type,omitempty"`
+	MountOptions       string `protobuf:"bytes,4,opt,name=mount_options,json=mountOptions,proto3" json:"mount_options,omitempty"`
+	TotalCapacityBytes uint64 `protobuf:"varint,5,opt,name=total_capacity_bytes,json=totalCapacityBytes,proto3" json:"total_capacity_bytes,omitempty"`
+	FreeCapacityBytes  uint64 `protobuf:"varint,6,opt,name=free_capacity_bytes,json=freeCapacityBytes,proto3" json:"free_capacity_bytes,omitempty"`
+}
+
+func (x *ManagedFileSystemInfo) Reset() {
+	*x = ManagedFileSystemInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_library_manager_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ManagedFileSystemInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ManagedFileSystemInfo) ProtoMessage() {}
+
+func (x *ManagedFileSystemInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_library_manager_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ManagedFileSystemInfo.ProtoReflect.Descriptor instead.
+func (*ManagedFileSystemInfo) Descriptor() ([]byte, []int) {
+	return file_library_manager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ManagedFileSystemInfo) GetMountPoint() string {
+	if x != nil {
+		return x.MountPoint
+	}
+	return ""
+}
+
+func (x *ManagedFileSystemInfo) GetDevicePath() string {
+	if x != nil {
+		return x.DevicePath
+	}
+	return ""
+}
+
+func (x *ManagedFileSystemInfo) GetFilesystemType() string {
+	if x != nil {
+		return x.FilesystemType
+	}
+	return ""
+}
+
+func (x *ManagedFileSystemInfo) GetMountOptions() string {
+	if x != nil {
+		return x.MountOptions
+	}
+	return ""
+}
+
+func (x *ManagedFileSystemInfo) GetTotalCapacityBytes() uint64 {
+	if x != nil {
+		return x.TotalCapacityBytes
+	}
+	return 0
+}
+
+func (x *ManagedFileSystemInfo) GetFreeCapacityBytes() uint64 {
+	if x != nil {
+		return x.FreeCapacityBytes
+	}
+	return 0
+}
+
 type HostInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IpAddress string `protobuf:"bytes,3,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
-	HostName  string `protobuf:"bytes,4,opt,name=host_name,json=hostName,proto3" json:"host_name,omitempty"`
+	IpAddress     string                   `protobuf:"bytes,1,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
+	HostName      string                   `protobuf:"bytes,2,opt,name=host_name,json=hostName,proto3" json:"host_name,omitempty"`
+	ManagedFsInfo []*ManagedFileSystemInfo `protobuf:"bytes,3,rep,name=managed_fs_info,json=managedFsInfo,proto3" json:"managed_fs_info,omitempty"`
 }
 
 func (x *HostInfo) Reset() {
 	*x = HostInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_library_manager_proto_msgTypes[8]
+		mi := &file_library_manager_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -584,7 +672,7 @@ func (x *HostInfo) String() string {
 func (*HostInfo) ProtoMessage() {}
 
 func (x *HostInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_library_manager_proto_msgTypes[8]
+	mi := &file_library_manager_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -597,7 +685,7 @@ func (x *HostInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HostInfo.ProtoReflect.Descriptor instead.
 func (*HostInfo) Descriptor() ([]byte, []int) {
-	return file_library_manager_proto_rawDescGZIP(), []int{8}
+	return file_library_manager_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *HostInfo) GetIpAddress() string {
@@ -614,6 +702,13 @@ func (x *HostInfo) GetHostName() string {
 	return ""
 }
 
+func (x *HostInfo) GetManagedFsInfo() []*ManagedFileSystemInfo {
+	if x != nil {
+		return x.ManagedFsInfo
+	}
+	return nil
+}
+
 type LibraryManagerSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -621,14 +716,14 @@ type LibraryManagerSpec struct {
 
 	LibraryType string              `protobuf:"bytes,1,opt,name=library_type,json=libraryType,proto3" json:"library_type,omitempty"`
 	Name        string              `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	NodeInfo    *HostInfo           `protobuf:"bytes,4,opt,name=node_info,json=nodeInfo,proto3" json:"node_info,omitempty"`
-	Settings    *TapeLibrarySetting `protobuf:"bytes,5,opt,name=settings,proto3" json:"settings,omitempty"`
+	NodeInfo    *HostInfo           `protobuf:"bytes,3,opt,name=node_info,json=nodeInfo,proto3" json:"node_info,omitempty"`
+	Settings    *TapeLibrarySetting `protobuf:"bytes,4,opt,name=settings,proto3" json:"settings,omitempty"`
 }
 
 func (x *LibraryManagerSpec) Reset() {
 	*x = LibraryManagerSpec{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_library_manager_proto_msgTypes[9]
+		mi := &file_library_manager_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -641,7 +736,7 @@ func (x *LibraryManagerSpec) String() string {
 func (*LibraryManagerSpec) ProtoMessage() {}
 
 func (x *LibraryManagerSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_library_manager_proto_msgTypes[9]
+	mi := &file_library_manager_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -654,7 +749,7 @@ func (x *LibraryManagerSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LibraryManagerSpec.ProtoReflect.Descriptor instead.
 func (*LibraryManagerSpec) Descriptor() ([]byte, []int) {
-	return file_library_manager_proto_rawDescGZIP(), []int{9}
+	return file_library_manager_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *LibraryManagerSpec) GetLibraryType() string {
@@ -773,20 +868,41 @@ var file_library_manager_proto_rawDesc = []byte{
 	0x63, 0x6f, 0x70, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x6e, 0x75,
 	0x6d, 0x62, 0x65, 0x72, 0x43, 0x6f, 0x70, 0x69, 0x65, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x65, 0x6e,
 	0x61, 0x62, 0x6c, 0x65, 0x5f, 0x57, 0x4f, 0x52, 0x4d, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52,
-	0x0a, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x57, 0x4f, 0x52, 0x4d, 0x22, 0x46, 0x0a, 0x08, 0x48,
-	0x6f, 0x73, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x70, 0x5f, 0x61, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x70, 0x41,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1b, 0x0a, 0x09, 0x68, 0x6f, 0x73, 0x74, 0x5f, 0x6e,
-	0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x68, 0x6f, 0x73, 0x74, 0x4e,
-	0x61, 0x6d, 0x65, 0x22, 0xaa, 0x01, 0x0a, 0x12, 0x4c, 0x69, 0x62, 0x72, 0x61, 0x72, 0x79, 0x4d,
+	0x0a, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x57, 0x4f, 0x52, 0x4d, 0x22, 0x89, 0x02, 0x0a, 0x15,
+	0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x79, 0x73, 0x74, 0x65,
+	0x6d, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x70,
+	0x6f, 0x69, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x6d, 0x6f, 0x75, 0x6e,
+	0x74, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65,
+	0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x64, 0x65, 0x76,
+	0x69, 0x63, 0x65, 0x50, 0x61, 0x74, 0x68, 0x12, 0x27, 0x0a, 0x0f, 0x66, 0x69, 0x6c, 0x65, 0x73,
+	0x79, 0x73, 0x74, 0x65, 0x6d, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0e, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x54, 0x79, 0x70, 0x65,
+	0x12, 0x23, 0x0a, 0x0d, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x4f, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x30, 0x0a, 0x14, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x63,
+	0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x12, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x61, 0x70, 0x61, 0x63, 0x69,
+	0x74, 0x79, 0x42, 0x79, 0x74, 0x65, 0x73, 0x12, 0x2e, 0x0a, 0x13, 0x66, 0x72, 0x65, 0x65, 0x5f,
+	0x63, 0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79, 0x5f, 0x62, 0x79, 0x74, 0x65, 0x73, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x66, 0x72, 0x65, 0x65, 0x43, 0x61, 0x70, 0x61, 0x63, 0x69,
+	0x74, 0x79, 0x42, 0x79, 0x74, 0x65, 0x73, 0x22, 0x89, 0x01, 0x0a, 0x08, 0x48, 0x6f, 0x73, 0x74,
+	0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x70, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x70, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x12, 0x1b, 0x0a, 0x09, 0x68, 0x6f, 0x73, 0x74, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x68, 0x6f, 0x73, 0x74, 0x4e, 0x61, 0x6d, 0x65,
+	0x12, 0x41, 0x0a, 0x0f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x5f, 0x66, 0x73, 0x5f, 0x69,
+	0x6e, 0x66, 0x6f, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x76, 0x31, 0x2e, 0x4d,
+	0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d,
+	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x0d, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x46, 0x73, 0x49,
+	0x6e, 0x66, 0x6f, 0x22, 0xaa, 0x01, 0x0a, 0x12, 0x4c, 0x69, 0x62, 0x72, 0x61, 0x72, 0x79, 0x4d,
 	0x61, 0x6e, 0x61, 0x67, 0x65, 0x72, 0x53, 0x70, 0x65, 0x63, 0x12, 0x21, 0x0a, 0x0c, 0x6c, 0x69,
 	0x62, 0x72, 0x61, 0x72, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x0b, 0x6c, 0x69, 0x62, 0x72, 0x61, 0x72, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x12, 0x0a,
 	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x12, 0x29, 0x0a, 0x09, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x04,
+	0x65, 0x12, 0x29, 0x0a, 0x09, 0x6e, 0x6f, 0x64, 0x65, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x03,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x76, 0x31, 0x2e, 0x48, 0x6f, 0x73, 0x74, 0x49, 0x6e,
 	0x66, 0x6f, 0x52, 0x08, 0x6e, 0x6f, 0x64, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x32, 0x0a, 0x08,
-	0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16,
+	0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16,
 	0x2e, 0x76, 0x31, 0x2e, 0x54, 0x61, 0x70, 0x65, 0x4c, 0x69, 0x62, 0x72, 0x61, 0x72, 0x79, 0x53,
 	0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x73, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73,
 	0x32, 0xd3, 0x04, 0x0a, 0x11, 0x4c, 0x69, 0x62, 0x72, 0x61, 0x72, 0x79, 0x4d, 0x61, 0x6e, 0x61,
@@ -844,7 +960,7 @@ func file_library_manager_proto_rawDescGZIP() []byte {
 	return file_library_manager_proto_rawDescData
 }
 
-var file_library_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_library_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_library_manager_proto_goTypes = []interface{}{
 	(*CreateLibraryManagerParams)(nil), // 0: v1.CreateLibraryManagerParams
 	(*UpdateLibraryManagerParams)(nil), // 1: v1.UpdateLibraryManagerParams
@@ -854,37 +970,39 @@ var file_library_manager_proto_goTypes = []interface{}{
 	(*SystemInfo)(nil),                 // 5: v1.SystemInfo
 	(*LTFSDataManagerInfo)(nil),        // 6: v1.LTFSDataManagerInfo
 	(*TapeLibrarySetting)(nil),         // 7: v1.TapeLibrarySetting
-	(*HostInfo)(nil),                   // 8: v1.HostInfo
-	(*LibraryManagerSpec)(nil),         // 9: v1.LibraryManagerSpec
-	(*ResourceKey)(nil),                // 10: v1.ResourceKey
-	(*emptypb.Empty)(nil),              // 11: google.protobuf.Empty
+	(*ManagedFileSystemInfo)(nil),      // 8: v1.ManagedFileSystemInfo
+	(*HostInfo)(nil),                   // 9: v1.HostInfo
+	(*LibraryManagerSpec)(nil),         // 10: v1.LibraryManagerSpec
+	(*ResourceKey)(nil),                // 11: v1.ResourceKey
+	(*emptypb.Empty)(nil),              // 12: google.protobuf.Empty
 }
 var file_library_manager_proto_depIdxs = []int32{
-	9,  // 0: v1.CreateLibraryManagerParams.spec:type_name -> v1.LibraryManagerSpec
-	10, // 1: v1.UpdateLibraryManagerParams.resource_key:type_name -> v1.ResourceKey
-	9,  // 2: v1.UpdateLibraryManagerParams.spec:type_name -> v1.LibraryManagerSpec
-	9,  // 3: v1.LibraryManagerObject.spec:type_name -> v1.LibraryManagerSpec
+	10, // 0: v1.CreateLibraryManagerParams.spec:type_name -> v1.LibraryManagerSpec
+	11, // 1: v1.UpdateLibraryManagerParams.resource_key:type_name -> v1.ResourceKey
+	10, // 2: v1.UpdateLibraryManagerParams.spec:type_name -> v1.LibraryManagerSpec
+	10, // 3: v1.LibraryManagerObject.spec:type_name -> v1.LibraryManagerSpec
 	4,  // 4: v1.LibraryManagerObject.library_info:type_name -> v1.TapeLibraryInfo
 	5,  // 5: v1.LibraryManagerObject.system:type_name -> v1.SystemInfo
 	6,  // 6: v1.LibraryManagerObject.data_manager_info:type_name -> v1.LTFSDataManagerInfo
 	2,  // 7: v1.LibraryManagersReply.data:type_name -> v1.LibraryManagerObject
-	8,  // 8: v1.LibraryManagerSpec.node_info:type_name -> v1.HostInfo
-	7,  // 9: v1.LibraryManagerSpec.settings:type_name -> v1.TapeLibrarySetting
-	10, // 10: v1.LibraryManagement.ListLibraryManagers:input_type -> v1.ResourceKey
-	10, // 11: v1.LibraryManagement.GetLibraryManager:input_type -> v1.ResourceKey
-	0,  // 12: v1.LibraryManagement.CreateLibraryManager:input_type -> v1.CreateLibraryManagerParams
-	1,  // 13: v1.LibraryManagement.UpdateLibraryManager:input_type -> v1.UpdateLibraryManagerParams
-	10, // 14: v1.LibraryManagement.DeleteLibraryManager:input_type -> v1.ResourceKey
-	3,  // 15: v1.LibraryManagement.ListLibraryManagers:output_type -> v1.LibraryManagersReply
-	2,  // 16: v1.LibraryManagement.GetLibraryManager:output_type -> v1.LibraryManagerObject
-	2,  // 17: v1.LibraryManagement.CreateLibraryManager:output_type -> v1.LibraryManagerObject
-	2,  // 18: v1.LibraryManagement.UpdateLibraryManager:output_type -> v1.LibraryManagerObject
-	11, // 19: v1.LibraryManagement.DeleteLibraryManager:output_type -> google.protobuf.Empty
-	15, // [15:20] is the sub-list for method output_type
-	10, // [10:15] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	8,  // 8: v1.HostInfo.managed_fs_info:type_name -> v1.ManagedFileSystemInfo
+	9,  // 9: v1.LibraryManagerSpec.node_info:type_name -> v1.HostInfo
+	7,  // 10: v1.LibraryManagerSpec.settings:type_name -> v1.TapeLibrarySetting
+	11, // 11: v1.LibraryManagement.ListLibraryManagers:input_type -> v1.ResourceKey
+	11, // 12: v1.LibraryManagement.GetLibraryManager:input_type -> v1.ResourceKey
+	0,  // 13: v1.LibraryManagement.CreateLibraryManager:input_type -> v1.CreateLibraryManagerParams
+	1,  // 14: v1.LibraryManagement.UpdateLibraryManager:input_type -> v1.UpdateLibraryManagerParams
+	11, // 15: v1.LibraryManagement.DeleteLibraryManager:input_type -> v1.ResourceKey
+	3,  // 16: v1.LibraryManagement.ListLibraryManagers:output_type -> v1.LibraryManagersReply
+	2,  // 17: v1.LibraryManagement.GetLibraryManager:output_type -> v1.LibraryManagerObject
+	2,  // 18: v1.LibraryManagement.CreateLibraryManager:output_type -> v1.LibraryManagerObject
+	2,  // 19: v1.LibraryManagement.UpdateLibraryManager:output_type -> v1.LibraryManagerObject
+	12, // 20: v1.LibraryManagement.DeleteLibraryManager:output_type -> google.protobuf.Empty
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_library_manager_proto_init() }
@@ -991,7 +1109,7 @@ func file_library_manager_proto_init() {
 			}
 		}
 		file_library_manager_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HostInfo); i {
+			switch v := v.(*ManagedFileSystemInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1003,6 +1121,18 @@ func file_library_manager_proto_init() {
 			}
 		}
 		file_library_manager_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HostInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_library_manager_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*LibraryManagerSpec); i {
 			case 0:
 				return &v.state
@@ -1021,7 +1151,7 @@ func file_library_manager_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_library_manager_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
