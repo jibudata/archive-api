@@ -95,7 +95,7 @@
         ]
       }
     },
-    "/api/v1/library_managers/{library_manager_name}/mediums": {
+    "/api/v1/library_managers/{library_manager_name}/medium": {
       "get": {
         "operationId": "ActiveArchive_ListMediumInfo",
         "responses": {
@@ -366,7 +366,7 @@
         ]
       }
     },
-    "/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}": {
+    "/api/v1/library_managers/{location_info.library_manager_name}/medium/{name}": {
       "get": {
         "operationId": "ActiveArchive_GetMediaInfo",
         "responses": {

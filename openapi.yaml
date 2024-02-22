@@ -110,7 +110,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /api/v1/library_managers/{libraryManagerName}/mediums:
+    /api/v1/library_managers/{libraryManagerName}/medium:
         get:
             tags:
                 - ActiveArchive
@@ -300,7 +300,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}:
+    /api/v1/library_managers/{location_info.library_manager_name}/medium/{name}:
         get:
             tags:
                 - ActiveArchive

@@ -12,12 +12,12 @@ option go_package = "github.com/jibudata/archival-api;v1";
 service ActiveArchive {
   rpc ListMediumInfo (DefaultResourceRequest) returns (MediumInfo) {
     option (google.api.http) = {
-      get: "/api/v1/library_managers/{library_manager_name}/mediums"
+      get: "/api/v1/library_managers/{library_manager_name}/medium"
     };
   }
   rpc GetMediaInfo (LibraryManagerResourceKey) returns (MediaInfoReply) {
     option (google.api.http) = {
-      get: "/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}"
+      get: "/api/v1/library_managers/{location_info.library_manager_name}/medium/{name}"
     };
   }
   rpc GetDrivesInfo (DefaultResourceRequest) returns (DrivesInfo) {
