@@ -1458,6 +1458,8 @@ func (m *LibraryManagerSpec) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ManagementToken
+
 	if len(errors) > 0 {
 		return LibraryManagerSpecMultiError(errors)
 	}

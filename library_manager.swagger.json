@@ -261,6 +261,9 @@
         },
         "settings": {
           "$ref": "#/definitions/v1TapeLibrarySetting"
+        },
+        "management_token": {
+          "type": "string"
         }
       }
     },

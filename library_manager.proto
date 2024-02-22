@@ -110,4 +110,5 @@ message LibraryManagerSpec {
   string name = 2;
   HostInfo node_info = 3;
   TapeLibrarySetting settings = 4;
+  string management_token = 5;
 }

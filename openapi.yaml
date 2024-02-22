@@ -724,6 +724,8 @@ components:
                     $ref: '#/components/schemas/HostInfo'
                 settings:
                     $ref: '#/components/schemas/TapeLibrarySetting'
+                managementToken:
+                    type: string
         LibraryManagersReply:
             type: object
             properties:

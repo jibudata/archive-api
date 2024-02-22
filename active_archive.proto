@@ -108,6 +108,7 @@ message CreatePoolParams {
   string name = 1;
   DefaultResourceRequest location_info = 2;
 }
+
 message PoolAddRequest {
   LibraryManagerResourceKey pool = 1;
   uint64 key = 2;
