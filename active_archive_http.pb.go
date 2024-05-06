@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -36,6 +35,7 @@ const OperationActiveArchiveRecall = "/v1.ActiveArchive/Recall"
 const OperationActiveArchiveRecallAsync = "/v1.ActiveArchive/RecallAsync"
 const OperationActiveArchiveRemoveMediaFromPool = "/v1.ActiveArchive/RemoveMediaFromPool"
 const OperationActiveArchiveRetrieve = "/v1.ActiveArchive/Retrieve"
+const OperationActiveArchiveSearchFile = "/v1.ActiveArchive/SearchFile"
 
 type ActiveArchiveHTTPServer interface {
 	AddMediaToPool(context.Context, *PoolAddRequest) (*ReplyMessage, error)
@@ -53,6 +53,7 @@ type ActiveArchiveHTTPServer interface {
 	RecallAsync(context.Context, *RecallRequest) (*MigrationStatus, error)
 	RemoveMediaFromPool(context.Context, *PoolRemoveRequest) (*ReplyMessage, error)
 	Retrieve(context.Context, *DefaultResourceRequest) (*ReplyMessage, error)
+	SearchFile(context.Context, *SearchRequest) (*SearchResponse, error)
 }
 
 func RegisterActiveArchiveHTTPServer(s *http.Server, srv ActiveArchiveHTTPServer) {
@@ -72,6 +73,7 @@ func RegisterActiveArchiveHTTPServer(s *http.Server, srv ActiveArchiveHTTPServer
 	r.POST("/api/v1/library_managers/{location_info.library_manager_name}/actions/async_recall", _ActiveArchive_RecallAsync0_HTTP_Handler(srv))
 	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/async_status/{request_number}", _ActiveArchive_GetAsyncStatus0_HTTP_Handler(srv))
 	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name}", _ActiveArchive_GetFileInfo0_HTTP_Handler(srv))
+	r.POST("/api/v1/search", _ActiveArchive_SearchFile0_HTTP_Handler(srv))
 }
 
 func _ActiveArchive_ListMediumInfo0_HTTP_Handler(srv ActiveArchiveHTTPServer) func(ctx http.Context) error {
@@ -404,6 +406,25 @@ func _ActiveArchive_GetFileInfo0_HTTP_Handler(srv ActiveArchiveHTTPServer) func(
 	}
 }
 
+func _ActiveArchive_SearchFile0_HTTP_Handler(srv ActiveArchiveHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SearchRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationActiveArchiveSearchFile)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SearchFile(ctx, req.(*SearchRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SearchResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ActiveArchiveHTTPClient interface {
 	AddMediaToPool(ctx context.Context, req *PoolAddRequest, opts ...http.CallOption) (rsp *ReplyMessage, err error)
 	CreatePool(ctx context.Context, req *CreatePoolParams, opts ...http.CallOption) (rsp *ReplyMessage, err error)
@@ -420,6 +441,7 @@ type ActiveArchiveHTTPClient interface {
 	RecallAsync(ctx context.Context, req *RecallRequest, opts ...http.CallOption) (rsp *MigrationStatus, err error)
 	RemoveMediaFromPool(ctx context.Context, req *PoolRemoveRequest, opts ...http.CallOption) (rsp *ReplyMessage, err error)
 	Retrieve(ctx context.Context, req *DefaultResourceRequest, opts ...http.CallOption) (rsp *ReplyMessage, err error)
+	SearchFile(ctx context.Context, req *SearchRequest, opts ...http.CallOption) (rsp *SearchResponse, err error)
 }
 
 type ActiveArchiveHTTPClientImpl struct {
@@ -617,6 +639,19 @@ func (c *ActiveArchiveHTTPClientImpl) Retrieve(ctx context.Context, in *DefaultR
 	pattern := "/api/v1/library_managers/{library_manager_name}/actions/retrieve"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationActiveArchiveRetrieve))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *ActiveArchiveHTTPClientImpl) SearchFile(ctx context.Context, in *SearchRequest, opts ...http.CallOption) (*SearchResponse, error) {
+	var out SearchResponse
+	pattern := "/api/v1/search"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationActiveArchiveSearchFile))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

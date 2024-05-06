@@ -241,7 +241,8 @@ paths:
                   in: path
                   required: true
                   schema:
-                    type: string
+                    type: integer
+                    format: int64
                 - name: locationInfo.libraryManagerName
                   in: query
                   schema:
@@ -609,8 +610,51 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/search:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_SearchFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
+        Condition:
+            type: object
+            properties:
+                type:
+                    type: string
+                field:
+                    type: string
+                op:
+                    type: string
+                operands:
+                    type: array
+                    items:
+                        type: string
+                groupOp:
+                    type: string
+                conditions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Condition'
         CreatePoolParams:
             type: object
             properties:
@@ -633,7 +677,8 @@ components:
                 deviceName:
                     type: string
                 slot:
-                    type: string
+                    type: integer
+                    format: uint64
                 status:
                     type: string
                 busy:
@@ -653,22 +698,28 @@ components:
                 fileName:
                     type: string
                 size:
-                    type: string
+                    type: integer
+                    format: uint64
                 blocks:
-                    type: string
+                    type: integer
+                    format: uint64
                 filesystemUidHigh:
-                    type: string
+                    type: integer
+                    format: uint64
                 filesystemUidLow:
-                    type: string
+                    type: integer
+                    format: uint64
                 inodeGeneration:
                     type: integer
                     format: uint32
                 inodeNumber:
-                    type: string
+                    type: integer
+                    format: uint64
                 tapeId:
                     type: string
                 startBlock:
-                    type: string
+                    type: integer
+                    format: uint64
         GoogleProtobufAny:
             type: object
             properties:
@@ -748,9 +799,11 @@ components:
                 mountOptions:
                     type: string
                 totalCapacityBytes:
-                    type: string
+                    type: integer
+                    format: uint64
                 freeCapacityBytes:
-                    type: string
+                    type: integer
+                    format: uint64
         MediaInfoReply:
             type: object
             properties:
@@ -780,19 +833,26 @@ components:
                 success:
                     type: boolean
                 requestNumber:
-                    type: string
+                    type: integer
+                    format: int64
                 pid:
-                    type: string
+                    type: integer
+                    format: int64
                 resident:
-                    type: string
+                    type: integer
+                    format: int64
                 transferred:
-                    type: string
+                    type: integer
+                    format: int64
                 premigrated:
-                    type: string
+                    type: integer
+                    format: int64
                 migrated:
-                    type: string
+                    type: integer
+                    format: int64
                 failed:
-                    type: string
+                    type: integer
+                    format: int64
                 done:
                     type: boolean
         PoolAddRequest:
@@ -801,7 +861,8 @@ components:
                 pool:
                     $ref: '#/components/schemas/LibraryManagerResourceKey'
                 key:
-                    type: string
+                    type: integer
+                    format: uint64
                 formatTape:
                     type: boolean
                 performCheck:
@@ -816,20 +877,25 @@ components:
                 poolName:
                     type: string
                 total:
-                    type: string
+                    type: integer
+                    format: uint64
                 free:
-                    type: string
+                    type: integer
+                    format: uint64
                 reclaimable:
-                    type: string
+                    type: integer
+                    format: uint64
                 numberTapes:
-                    type: string
+                    type: integer
+                    format: uint64
         PoolRemoveRequest:
             type: object
             properties:
                 pool:
                     $ref: '#/components/schemas/LibraryManagerResourceKey'
                 key:
-                    type: string
+                    type: integer
+                    format: uint64
                 tapeId:
                     type: array
                     items:
@@ -860,6 +926,38 @@ components:
                     format: int32
                 errorMsg:
                     type: string
+        SearchRequest:
+            type: object
+            properties:
+                from:
+                    type: integer
+                    format: int32
+                size:
+                    type: integer
+                    format: int32
+                condition:
+                    $ref: '#/components/schemas/Condition'
+                sort:
+                    $ref: '#/components/schemas/Sort'
+        SearchResponse:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: int32
+                relation:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+        Sort:
+            type: object
+            properties:
+                field:
+                    type: string
+                desc:
+                    type: boolean
         Status:
             type: object
             properties:
@@ -882,12 +980,14 @@ components:
                 revision:
                     type: string
                 capacityBytes:
-                    type: string
+                    type: integer
+                    format: uint64
                 totalCatridges:
                     type: integer
                     format: int32
                 licensedCapacityBytes:
-                    type: string
+                    type: integer
+                    format: uint64
                 numberCopies:
                     type: integer
                     format: int32
@@ -908,17 +1008,22 @@ components:
                 id:
                     type: string
                 slot:
-                    type: string
+                    type: integer
+                    format: uint64
                 totalCapacity:
-                    type: string
+                    type: integer
+                    format: uint64
                 remainCapacity:
-                    type: string
+                    type: integer
+                    format: uint64
                 reclaimable:
-                    type: string
+                    type: integer
+                    format: uint64
                 status:
                     type: string
                 inprogress:
-                    type: string
+                    type: integer
+                    format: uint64
                 pool:
                     type: string
                 state:
