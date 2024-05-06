@@ -938,7 +938,9 @@ components:
                 condition:
                     $ref: '#/components/schemas/Condition'
                 sort:
-                    $ref: '#/components/schemas/Sort'
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Sort'
         SearchResponse:
             type: object
             properties:

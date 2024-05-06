@@ -1084,7 +1084,10 @@
           "$ref": "#/definitions/v1Condition"
         },
         "sort": {
-          "$ref": "#/definitions/v1Sort"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Sort"
+          }
         }
       }
     },

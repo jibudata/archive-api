@@ -240,7 +240,7 @@ message SearchRequest {
   int32 from = 1;
   int32 size = 2;
   Condition condition = 3;
-  Sort sort = 4;
+  repeated Sort sort = 4;
 }
 
 message SearchResponse {
