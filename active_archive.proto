@@ -100,6 +100,12 @@ service ActiveArchive {
       body: "*"
     };
   }
+  rpc PrepareFileList (SearchRequest) returns (PrepareFileListResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/prepare_filelist"
+      body: "*"
+    };
+  }
 }
 
 message LibraryManagerResourceKey {
@@ -247,4 +253,8 @@ message SearchResponse {
   int32 total = 1;
   string relation = 2;
   repeated google.protobuf.Struct items = 3;
+}
+
+message PrepareFileListResponse {
+  string id = 1;
 }

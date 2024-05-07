@@ -2843,3 +2843,107 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SearchResponseValidationError{}
+
+// Validate checks the field values on PrepareFileListResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *PrepareFileListResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PrepareFileListResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PrepareFileListResponseMultiError, or nil if none found.
+func (m *PrepareFileListResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PrepareFileListResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return PrepareFileListResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// PrepareFileListResponseMultiError is an error wrapping multiple validation
+// errors returned by PrepareFileListResponse.ValidateAll() if the designated
+// constraints aren't met.
+type PrepareFileListResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PrepareFileListResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PrepareFileListResponseMultiError) AllErrors() []error { return m }
+
+// PrepareFileListResponseValidationError is the validation error returned by
+// PrepareFileListResponse.Validate if the designated constraints aren't met.
+type PrepareFileListResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PrepareFileListResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PrepareFileListResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PrepareFileListResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PrepareFileListResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PrepareFileListResponseValidationError) ErrorName() string {
+	return "PrepareFileListResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PrepareFileListResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPrepareFileListResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PrepareFileListResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PrepareFileListResponseValidationError{}

@@ -776,6 +776,38 @@
         ]
       }
     },
+    "/api/v1/prepare_filelist": {
+      "post": {
+        "operationId": "ActiveArchive_PrepareFileList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PrepareFileListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SearchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
     "/api/v1/search": {
       "post": {
         "operationId": "ActiveArchive_SearchFile",
@@ -1060,6 +1092,14 @@
           "items": {
             "$ref": "#/definitions/v1PoolInfo"
           }
+        }
+      }
+    },
+    "v1PrepareFileListResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         }
       }
     },

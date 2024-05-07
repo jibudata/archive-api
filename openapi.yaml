@@ -610,6 +610,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/prepare_filelist:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_PrepareFileList
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PrepareFileListResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/v1/search:
         post:
             tags:
@@ -907,6 +931,11 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/PoolInfo'
+        PrepareFileListResponse:
+            type: object
+            properties:
+                id:
+                    type: string
         RecallRequest:
             type: object
             properties:
