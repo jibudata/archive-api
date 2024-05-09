@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -39,6 +38,8 @@ type ActiveArchiveClient interface {
 	RecallAsync(ctx context.Context, in *RecallRequest, opts ...grpc.CallOption) (*MigrationStatus, error)
 	GetAsyncStatus(ctx context.Context, in *AsyncStatusRequest, opts ...grpc.CallOption) (*MigrationStatus, error)
 	GetFileInfo(ctx context.Context, in *FileInfoRequest, opts ...grpc.CallOption) (*FileInfo, error)
+	SearchFile(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
+	PrepareFileList(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*PrepareFileListResponse, error)
 }
 
 type activeArchiveClient struct {
@@ -184,6 +185,24 @@ func (c *activeArchiveClient) GetFileInfo(ctx context.Context, in *FileInfoReque
 	return out, nil
 }
 
+func (c *activeArchiveClient) SearchFile(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
+	out := new(SearchResponse)
+	err := c.cc.Invoke(ctx, "/v1.ActiveArchive/SearchFile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *activeArchiveClient) PrepareFileList(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*PrepareFileListResponse, error) {
+	out := new(PrepareFileListResponse)
+	err := c.cc.Invoke(ctx, "/v1.ActiveArchive/PrepareFileList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActiveArchiveServer is the server API for ActiveArchive service.
 // All implementations must embed UnimplementedActiveArchiveServer
 // for forward compatibility
@@ -203,6 +222,8 @@ type ActiveArchiveServer interface {
 	RecallAsync(context.Context, *RecallRequest) (*MigrationStatus, error)
 	GetAsyncStatus(context.Context, *AsyncStatusRequest) (*MigrationStatus, error)
 	GetFileInfo(context.Context, *FileInfoRequest) (*FileInfo, error)
+	SearchFile(context.Context, *SearchRequest) (*SearchResponse, error)
+	PrepareFileList(context.Context, *SearchRequest) (*PrepareFileListResponse, error)
 	mustEmbedUnimplementedActiveArchiveServer()
 }
 
@@ -254,6 +275,12 @@ func (UnimplementedActiveArchiveServer) GetAsyncStatus(context.Context, *AsyncSt
 }
 func (UnimplementedActiveArchiveServer) GetFileInfo(context.Context, *FileInfoRequest) (*FileInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFileInfo not implemented")
+}
+func (UnimplementedActiveArchiveServer) SearchFile(context.Context, *SearchRequest) (*SearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchFile not implemented")
+}
+func (UnimplementedActiveArchiveServer) PrepareFileList(context.Context, *SearchRequest) (*PrepareFileListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PrepareFileList not implemented")
 }
 func (UnimplementedActiveArchiveServer) mustEmbedUnimplementedActiveArchiveServer() {}
 
@@ -538,6 +565,42 @@ func _ActiveArchive_GetFileInfo_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActiveArchive_SearchFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActiveArchiveServer).SearchFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1.ActiveArchive/SearchFile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActiveArchiveServer).SearchFile(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActiveArchive_PrepareFileList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActiveArchiveServer).PrepareFileList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1.ActiveArchive/PrepareFileList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActiveArchiveServer).PrepareFileList(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActiveArchive_ServiceDesc is the grpc.ServiceDesc for ActiveArchive service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -604,6 +667,14 @@ var ActiveArchive_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFileInfo",
 			Handler:    _ActiveArchive_GetFileInfo_Handler,
+		},
+		{
+			MethodName: "SearchFile",
+			Handler:    _ActiveArchive_SearchFile_Handler,
+		},
+		{
+			MethodName: "PrepareFileList",
+			Handler:    _ActiveArchive_PrepareFileList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

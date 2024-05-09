@@ -352,7 +352,8 @@
             "name": "file_name",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "pattern": ".+"
           },
           {
             "name": "location_info.ip_address",
@@ -775,6 +776,70 @@
           "ActiveArchive"
         ]
       }
+    },
+    "/api/v1/prepare_filelist": {
+      "post": {
+        "operationId": "ActiveArchive_PrepareFileList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PrepareFileListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SearchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
+    "/api/v1/search": {
+      "post": {
+        "operationId": "ActiveArchive_SearchFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SearchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SearchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
     }
   },
   "definitions": {
@@ -786,6 +851,14 @@
         }
       },
       "additionalProperties": {}
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
     },
     "rpcStatus": {
       "type": "object",
@@ -801,6 +874,35 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Condition": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "op": {
+          "type": "string"
+        },
+        "operands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "group_op": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Condition"
           }
         }
       }
@@ -994,6 +1096,14 @@
         }
       }
     },
+    "v1PrepareFileListResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
     "v1ReplyMessage": {
       "type": "object",
       "properties": {
@@ -1003,6 +1113,57 @@
         },
         "error_msg": {
           "type": "string"
+        }
+      }
+    },
+    "v1SearchRequest": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "condition": {
+          "$ref": "#/definitions/v1Condition"
+        },
+        "sort": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Sort"
+          }
+        }
+      }
+    },
+    "v1SearchResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "v1Sort": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "boolean"
         }
       }
     },
