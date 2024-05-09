@@ -52,6 +52,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/**:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetFileInfo
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: fileName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FileInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/v1/library_managers/{libraryManagerName}/actions/retrieve:
         post:
             tags:
@@ -258,43 +294,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/MigrationStatus'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /api/v1/library_managers/{location_info.library_manager_name}/file_info/{fileName}:
-        get:
-            tags:
-                - ActiveArchive
-            operationId: ActiveArchive_GetFileInfo
-            parameters:
-                - name: location_info.library_manager_name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: fileName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: locationInfo.libraryManagerName
-                  in: query
-                  schema:
-                    type: string
-                - name: locationInfo.ipAddress
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/FileInfo'
                 default:
                     description: Default error response
                     content:

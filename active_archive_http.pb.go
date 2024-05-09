@@ -74,7 +74,7 @@ func RegisterActiveArchiveHTTPServer(s *http.Server, srv ActiveArchiveHTTPServer
 	r.POST("/api/v1/library_managers/{pool.location_info.library_manager_name}/actions/async_migrate", _ActiveArchive_MigrateAsync0_HTTP_Handler(srv))
 	r.POST("/api/v1/library_managers/{location_info.library_manager_name}/actions/async_recall", _ActiveArchive_RecallAsync0_HTTP_Handler(srv))
 	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/async_status/{request_number}", _ActiveArchive_GetAsyncStatus0_HTTP_Handler(srv))
-	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name}", _ActiveArchive_GetFileInfo0_HTTP_Handler(srv))
+	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name:.*.*}", _ActiveArchive_GetFileInfo0_HTTP_Handler(srv))
 	r.POST("/api/v1/search", _ActiveArchive_SearchFile0_HTTP_Handler(srv))
 	r.POST("/api/v1/prepare_filelist", _ActiveArchive_PrepareFileList0_HTTP_Handler(srv))
 }
@@ -542,7 +542,7 @@ func (c *ActiveArchiveHTTPClientImpl) GetDrivesInfo(ctx context.Context, in *Def
 
 func (c *ActiveArchiveHTTPClientImpl) GetFileInfo(ctx context.Context, in *FileInfoRequest, opts ...http.CallOption) (*FileInfo, error) {
 	var out FileInfo
-	pattern := "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name}"
+	pattern := "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name:.*.*}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationActiveArchiveGetFileInfo))
 	opts = append(opts, http.PathTemplate(pattern))

@@ -352,7 +352,8 @@
             "name": "file_name",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "pattern": ".+"
           },
           {
             "name": "location_info.ip_address",

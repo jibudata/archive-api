@@ -91,7 +91,7 @@ service ActiveArchive {
   }
   rpc GetFileInfo (FileInfoRequest) returns (FileInfo) {
     option (google.api.http) = {
-      get: "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name:.*}"
+      get: "/api/v1/library_managers/{location_info.library_manager_name}/file_info/{file_name=**}"
     };
   }
   rpc SearchFile (SearchRequest) returns (SearchResponse) {
