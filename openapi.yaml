@@ -52,6 +52,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/library_managers/**:
+        get:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_GetFileInfo
+            parameters:
+                - name: location_info.library_manager_name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: fileName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.libraryManagerName
+                  in: query
+                  schema:
+                    type: string
+                - name: locationInfo.ipAddress
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FileInfo'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /api/v1/library_managers/{libraryManagerName}/actions/retrieve:
         post:
             tags:
@@ -257,43 +293,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/MigrationStatus'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /api/v1/library_managers/{location_info.library_manager_name}/file_info/{fileName}:
-        get:
-            tags:
-                - ActiveArchive
-            operationId: ActiveArchive_GetFileInfo
-            parameters:
-                - name: location_info.library_manager_name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: fileName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: locationInfo.libraryManagerName
-                  in: query
-                  schema:
-                    type: string
-                - name: locationInfo.ipAddress
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/FileInfo'
                 default:
                     description: Default error response
                     content:
@@ -609,8 +608,75 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /api/v1/prepare_filelist:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_PrepareFileList
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PrepareFileListResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/v1/search:
+        post:
+            tags:
+                - ActiveArchive
+            operationId: ActiveArchive_SearchFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
+        Condition:
+            type: object
+            properties:
+                type:
+                    type: string
+                field:
+                    type: string
+                op:
+                    type: string
+                operands:
+                    type: array
+                    items:
+                        type: string
+                groupOp:
+                    type: string
+                conditions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Condition'
         CreatePoolParams:
             type: object
             properties:
@@ -841,6 +907,11 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/PoolInfo'
+        PrepareFileListResponse:
+            type: object
+            properties:
+                id:
+                    type: string
         RecallRequest:
             type: object
             properties:
@@ -860,6 +931,40 @@ components:
                     format: int32
                 errorMsg:
                     type: string
+        SearchRequest:
+            type: object
+            properties:
+                from:
+                    type: integer
+                    format: int32
+                size:
+                    type: integer
+                    format: int32
+                condition:
+                    $ref: '#/components/schemas/Condition'
+                sort:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Sort'
+        SearchResponse:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: int32
+                relation:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        type: object
+        Sort:
+            type: object
+            properties:
+                field:
+                    type: string
+                desc:
+                    type: boolean
         Status:
             type: object
             properties:
