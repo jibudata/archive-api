@@ -207,7 +207,7 @@ message FileInfo {
   uint32 inode_generation = 7;
   uint64 inode_number = 8;
   string tape_id = 9;
-  uint64 start_block = 10;
+  int64 start_block = 10;
 }
 
 message FileInfoRequest {

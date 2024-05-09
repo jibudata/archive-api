@@ -886,7 +886,7 @@
         },
         "start_block": {
           "type": "string",
-          "format": "uint64"
+          "format": "int64"
         }
       }
     },
