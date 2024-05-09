@@ -60,8 +60,8 @@ type ActiveArchiveHTTPServer interface {
 
 func RegisterActiveArchiveHTTPServer(s *http.Server, srv ActiveArchiveHTTPServer) {
 	r := s.Route("/")
-	r.GET("/api/v1/library_managers/{library_manager_name}/mediums", _ActiveArchive_ListMediumInfo0_HTTP_Handler(srv))
-	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}", _ActiveArchive_GetMediaInfo0_HTTP_Handler(srv))
+	r.GET("/api/v1/library_managers/{library_manager_name}/medium", _ActiveArchive_ListMediumInfo0_HTTP_Handler(srv))
+	r.GET("/api/v1/library_managers/{location_info.library_manager_name}/medium/{name}", _ActiveArchive_GetMediaInfo0_HTTP_Handler(srv))
 	r.GET("/api/v1/library_managers/{library_manager_name}/drives", _ActiveArchive_GetDrivesInfo0_HTTP_Handler(srv))
 	r.GET("/api/v1/library_managers/{library_manager_name}/pools", _ActiveArchive_GetPoolsInfo0_HTTP_Handler(srv))
 	r.POST("/api/v1/library_managers/{location_info.library_manager_name}/pools", _ActiveArchive_CreatePool0_HTTP_Handler(srv))
@@ -555,7 +555,7 @@ func (c *ActiveArchiveHTTPClientImpl) GetFileInfo(ctx context.Context, in *FileI
 
 func (c *ActiveArchiveHTTPClientImpl) GetMediaInfo(ctx context.Context, in *LibraryManagerResourceKey, opts ...http.CallOption) (*MediaInfoReply, error) {
 	var out MediaInfoReply
-	pattern := "/api/v1/library_managers/{location_info.library_manager_name}/mediums/{name}"
+	pattern := "/api/v1/library_managers/{location_info.library_manager_name}/medium/{name}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationActiveArchiveGetMediaInfo))
 	opts = append(opts, http.PathTemplate(pattern))
@@ -581,7 +581,7 @@ func (c *ActiveArchiveHTTPClientImpl) GetPoolsInfo(ctx context.Context, in *Defa
 
 func (c *ActiveArchiveHTTPClientImpl) ListMediumInfo(ctx context.Context, in *DefaultResourceRequest, opts ...http.CallOption) (*MediumInfo, error) {
 	var out MediumInfo
-	pattern := "/api/v1/library_managers/{library_manager_name}/mediums"
+	pattern := "/api/v1/library_managers/{library_manager_name}/medium"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationActiveArchiveListMediumInfo))
 	opts = append(opts, http.PathTemplate(pattern))
