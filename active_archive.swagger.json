@@ -809,6 +809,38 @@
         ]
       }
     },
+    "/api/v1/recall_searched_files": {
+      "post": {
+        "operationId": "ActiveArchive_RecallSearchedFiles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RecallSearchedFilesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SearchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ActiveArchive"
+        ]
+      }
+    },
     "/api/v1/search": {
       "post": {
         "operationId": "ActiveArchive_SearchFile",
@@ -1101,6 +1133,15 @@
       "properties": {
         "id": {
           "type": "string"
+        }
+      }
+    },
+    "v1RecallSearchedFilesResponse": {
+      "type": "object",
+      "properties": {
+        "request_number": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

@@ -40,6 +40,7 @@ type ActiveArchiveClient interface {
 	GetFileInfo(ctx context.Context, in *FileInfoRequest, opts ...grpc.CallOption) (*FileInfo, error)
 	SearchFile(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 	PrepareFileList(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*PrepareFileListResponse, error)
+	RecallSearchedFiles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*RecallSearchedFilesResponse, error)
 }
 
 type activeArchiveClient struct {
@@ -203,6 +204,15 @@ func (c *activeArchiveClient) PrepareFileList(ctx context.Context, in *SearchReq
 	return out, nil
 }
 
+func (c *activeArchiveClient) RecallSearchedFiles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*RecallSearchedFilesResponse, error) {
+	out := new(RecallSearchedFilesResponse)
+	err := c.cc.Invoke(ctx, "/v1.ActiveArchive/RecallSearchedFiles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActiveArchiveServer is the server API for ActiveArchive service.
 // All implementations must embed UnimplementedActiveArchiveServer
 // for forward compatibility
@@ -224,6 +234,7 @@ type ActiveArchiveServer interface {
 	GetFileInfo(context.Context, *FileInfoRequest) (*FileInfo, error)
 	SearchFile(context.Context, *SearchRequest) (*SearchResponse, error)
 	PrepareFileList(context.Context, *SearchRequest) (*PrepareFileListResponse, error)
+	RecallSearchedFiles(context.Context, *SearchRequest) (*RecallSearchedFilesResponse, error)
 	mustEmbedUnimplementedActiveArchiveServer()
 }
 
@@ -281,6 +292,9 @@ func (UnimplementedActiveArchiveServer) SearchFile(context.Context, *SearchReque
 }
 func (UnimplementedActiveArchiveServer) PrepareFileList(context.Context, *SearchRequest) (*PrepareFileListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PrepareFileList not implemented")
+}
+func (UnimplementedActiveArchiveServer) RecallSearchedFiles(context.Context, *SearchRequest) (*RecallSearchedFilesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RecallSearchedFiles not implemented")
 }
 func (UnimplementedActiveArchiveServer) mustEmbedUnimplementedActiveArchiveServer() {}
 
@@ -601,6 +615,24 @@ func _ActiveArchive_PrepareFileList_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ActiveArchive_RecallSearchedFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActiveArchiveServer).RecallSearchedFiles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1.ActiveArchive/RecallSearchedFiles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActiveArchiveServer).RecallSearchedFiles(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ActiveArchive_ServiceDesc is the grpc.ServiceDesc for ActiveArchive service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -675,6 +707,10 @@ var ActiveArchive_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PrepareFileList",
 			Handler:    _ActiveArchive_PrepareFileList_Handler,
+		},
+		{
+			MethodName: "RecallSearchedFiles",
+			Handler:    _ActiveArchive_RecallSearchedFiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

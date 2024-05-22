@@ -106,6 +106,12 @@ service ActiveArchive {
       body: "*"
     };
   }
+  rpc RecallSearchedFiles (SearchRequest) returns (RecallSearchedFilesResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/recall_searched_files"
+      body: "*"
+    };
+  }
 }
 
 message LibraryManagerResourceKey {
@@ -257,4 +263,8 @@ message SearchResponse {
 
 message PrepareFileListResponse {
   string id = 1;
+}
+
+message RecallSearchedFilesResponse{
+  int64 request_number = 1;
 }
